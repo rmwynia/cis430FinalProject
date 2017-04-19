@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<!-- ================================================================== -->
+	<!-- MySQL WebApp Demo 0 - Basic Connectivity and output                -->
+	<!-- ================================================================== -->
+
+	<meta charset="UTF-8">
+	<title>SafetyPin Login</title>
+
+	<script src="http://mysqljs.com/mysql.js"></script>
+
+</head>
+<body onload="initialize()">
+	<pre id="output"></pre>
+
+<form id="regform"  method="post">
+	
+	<p class="logerr">
+	
+	</p>
+	<p>
+	<!-- username -->
+		<label for="uname">UserID:</label>
+			<input type="text" id="usernameInputid" name="uname"
+			autofocus
+			required
+			value="bbbbb"
+            title="UserID: 5 digits, (a-h and 0-6 only!)"	
+			pattern="[a-h0-6-]{5}" 
+			
+			placeholder="UserID"/>	
+			
+	<!-- password -->
+		<label for="pword">Password:</label>
+			<input type="password" id="pword" name="pword" 
+			required
+            title="Password: 5-15 Characters, Letters a-z, Numbers 1-5, only!"	
+			pattern="[a-z1-5-]{5,15}"
+			
+			
+			placeholder="Password"/>	
+			<br />
+	
+	</p>
+			<p class="submit">
+			<input type="submit" id="submit" value="LOG IN" title="This button will submit your form!"   />
+			
+				<span class="reset">
+			<input type="reset" id="reset" value="START OVER" title="This button will clear your form!"  onclick="history.go(0)" />
+				</span>
+				
+			</p>
+
+
+
+	</form>
+
+
+	<script>
+		MySql.Execute(
+			"dmazzola.com",					// mySQL server
+			"mbrandt2", 					// login name
+			"mbra1200", 					// login password
+			"test_db_mbrandt2", 			// database to use
+											// SQL query string
+			"SELECT 											\
+				*										\
+			 FROM 												\
+				SafetyPin 										\
+			  													\
+			 													\
+			 	 												\
+			 LIMIT 10;",
+
+		function processQueryResult(queryReturned) {
+    		if (!queryReturned.Success) {
+    			alert(queryReturned.Error)
+    		} else {
+    			
+
+    			for (var i =0; i < queryReturned.Result.length; i++) {
+
+    				console.log(queryReturned.Result[i].username)
+    				console.log(queryReturned.Result[i].password)
+
+    				var str = JSON.stringify(queryReturned.Result[i].username, null, 2);
+    				console.log(str);
+
+    				var n = str.includes("aaaaa");
+    				
+    				console.log(n); 
+    				
+					document.getElementById("output").innerHTML = 
+    				JSON.stringify(queryReturned.Result, null, 2);
+
+
+
+    				
+    			}
+    		}
+    	}
+    	
+	    );
+
+	  
+	</script>
+
+	<script type="text/javascript" src="Login.js"></script>
+</body>
+</html>

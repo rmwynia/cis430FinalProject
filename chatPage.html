@@ -9,61 +9,53 @@
       <title>Simple App</title>
 
       <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Adamina|Lobster|Old+Standard+TT|Oleo+Script|Playball|Shrikhand|Voltaire|Tangerine">
+        <script src="js/appendFromInput.js" type="text/javascript"></script>
+         <script type="text/javascript" src="cordova.js"></script>
 
       
-      <link href="style.css"  rel="stylesheet"  type="text/css"> 
+   
     
    </head>
 
-   <body>
+    <body>
 
-   	<header>
-   	<h1>Safety Pin</h1>
-    <BUTTON> <a href ="darkGmaps.html">Map</a> </BUTTON>
-    
-   	<h2></h2>
-   	</header>
-    
-    <!-- br is a line break; it inserts a single blank line in the browser display -->
-    <br>	
-    ***<br>
-    <br>
-    
-
+    <header>
+    <h1>Safety Pin</h1>
+   
+    </header>
     <main>
-    	<section class="commentInput">
-    	 
+    <!-- this section contains the input of the text and the button that executes the function --> 
+      <section class="commentInput">
+       
         <h4>Begin Chat here</h4>
-    		<input type="text" autofocus>   <button> Add </button>  
-    	 
-    	</section>
+        
+        <input type="text" id ="chatInput" autofocus> 
+        <!--This button will call the fillTable function in order to append to the table below -->  
+        <input id= "chatInsert" type="button" value="Send Message" onclick="return fillTable();"/> 
+       
+       
+      </section>
       
       <br>
       <br>
+      <!-- this section contains the entirity of the chat box -->
       <section class="chatRoom">
-    	<section class="previousComments">
+      <!-- this section contains the items sent and recieved -->
+      <section class="previousComments">
          
-    		<h3 class = "title" >Chat Room:</h3>
-    	
+        <h3 class = "title" >Chat Room:</h3>
+      <table id="conversation">
+       <tr> 
+          <td></td>
+          </tr>
+       </tr> 
+      </table>
       
-    	</section>
+      </section>
       </section>
     </main>
 
-    <br>
-    ***<br>
-    <br>
-
-    <footer>
-    
-    </footer>
-
-    
-      <script src="http://code.jquery.com/jquery-2.0.3.min.js"  type="text/javascript"></script>
-
-    
-       <script src="appendFromInput.js" type="text/javascript"></script>
-
    </body>
+
 
 </html>

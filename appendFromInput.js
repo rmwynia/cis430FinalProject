@@ -1,29 +1,25 @@
+"use strict;"
 
-var main = function()
-{
-	"use strict";
+function fillTable() {
+	
+	var table =document.getElementById("conversation");
 
-	$(".commentInput button").on("click", function(event)
-									{
-										var $newComment = $("<p>");
-										var commentText = $(".commentInput input").val();
-										var $time = $("<p>");
-										var dt = new Date();
-										var minutes =dt.getMinutes();
-										var hours = dt.getHours();
+	var row= table.insertRow(0);
 
-										var offTime = hours + ":"+ minutes;
+	var cell1 =row.insertCell(0);
+	var cell2 =row.insertCell(1);
+	var d = new Date();
 
+	//finding out the hours and the minutes 
+	var h= d.getHours();
+	var s = d.getMinutes();
 
-										$newComment.text(commentText);
-										$time.text(minutes);
+	var currentTime =h +":"+ s;
 
-										$(".previousComments").append(offTime);
-										$(".previousComments").append($newComment);
-										
-										
-									}
-								);
-};
+	//inserting the user input and the date and the time into the table. 
+	cell2.innerHTML = document.getElementById("chatInput").value;
+	cell1.innerHTML= currentTime;
 
-$(document).ready(main);
+	return false;
+}
+

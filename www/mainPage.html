@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Main Page</title>
+	<script src="http://mysqljs.com/mysql.js"></script>
+</head>
+<body onload="loadUserGroup()">
+<div id="header">
+<h1>Safety Pin Groups</h1>
+</div>
+
+<div id="groups">
+	
+	<!--<table>
+		<tr>
+			<td id="groupName">CodingKids Night Out</td>
+			<td ><button class="enterChat">Enter Chat Room</button></td>
+		</tr>
+	</table>-->
+</div>
+</body>
+	<script>
+		var userName;
+		userName = "Bozhi";
+
+		function loadUserGroup() {
+		MySql.Execute(
+			"dmazzola.com",					// mySQL server
+			"byin4", 						// login name
+			"byin7560", 					// login password
+			"test_db_byin4", 				// database to use
+			"SELECT 											\
+				group_name, user_name 						\
+			 FROM 												\
+				Groups, Users 							\
+			 WHERE 												\
+				Groups.group_id	= Users.group_id 	\
+			 AND				\
+			 	Users.user_name = '"+userName + "';",				
+		    function (data) {
+            processQueryResult(data);
+      		}
+    	);
+	}
+	function processQueryResult(queryReturned) {
+		if (!queryReturned.Success) {
+			alert(queryReturned.Error)
+		} else {
+
+				groups = document.getElementById("groups");
+				table  	  	= document.createElement("table");
+			for (var i=0; i<queryReturned.Result.length; i++) {
+    			var tableRow = document.createElement("tr");
+    			var json = JSON.stringify(queryReturned.Result[i].group_name);
+    			var groupName = json.replace(/\"/g, "");
+	    		var cell0 	 = document.createElement("td");
+	    		var cellText = document.createTextNode(groupName);
+	    		var cell1	 = document.createElement("td");
+
+	    		var button = document.createElement("button");
+	    		button.innerHTML="EnterChat";
+	    		cell0.appendChild(cellText);
+	    		cell1.appendChild(button);
+	    		tableRow.appendChild(cell0);
+	    		tableRow.appendChild(cell1);	
+	    		table.appendChild(tableRow);
+	    		}
+    			groups.appendChild(table);
+    		}
+    	}
+	</script>
+</html>

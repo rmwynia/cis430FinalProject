@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<!-- ================================================================== -->
+	<!-- MySQL WebApp Demo 0 - Basic Connectivity and output                -->
+	<!-- ================================================================== -->
+
+	<meta charset="UTF-8">
+	<title>SafetyPin Login</title>
+<script src="http://mysqljs.com/mysql.js"></script>
+	
+
+</head>
+<body onload="">
+	<pre id="output"></pre>
+
+<form id="regform"  method="post">
+	
+	<p class="logerr">
+	
+	</p>
+	<p>
+	<!-- username -->
+		<label for="uname">UserID:</label>
+			<input type="text" id="usernameInputid" name="uname"
+			autofocus
+			required
+			value="Madeline"
+            title="UserID: 5 digits, (a-h and 0-6 only!)"	
+			placeholder="UserID"/>	
+			
+	<!-- password -->
+		<label for="pword">Password:</label>
+			<input type="password" id="pwordInputid" name="pword" 
+			required
+			value="madeline"
+            title="Password: 5-15 Characters, Letters a-z, Numbers 1-5, only!"	
+			placeholder="Password"/>	
+			<br />
+	
+	</p>
+			<p class="submit">
+			<input type="button" id="submit" value="LOG IN" title="This button will submit your form!" onclick="test()"   />
+			
+				<span class="reset">
+			<input type="reset" id="reset" value="START OVER" title="This button will clear your form!"  onclick="history.go(0)" />
+				</span>
+				
+			</p>
+
+
+
+	</form>
+
+<div id="mainPage">
+	<h2>Welcome Going Out!</h2>
+	<a href ="mapStyleExample.html">Find your friends</a>
+	<div id="groups"></div>
+</div>
+
+	<script>
+		
+	function getPword(id){
+		return (document.getElementById("pwordInputid").value); 
+	}
+
+function getUsername(id){
+		return (document.getElementById("usernameInputid").value);
+		
+
+	}
+
+var password = getPword(pwordInputid);
+var username = getUsername(usernameInputid);
+
+var verifiedUserName;
+	
+function test(){
+	console.log(password)
+	console.log(username)
+
+	
+	
+
+		MySql.Execute(
+			"dmazzola.com",					// mySQL server
+			"mbrandt2", 					// login name
+			"mbra1200", 					// login password
+			"test_db_mbrandt2", 			// database to use
+											// SQL query string
+			"SELECT 											\
+				*												\
+			 FROM 												\
+				Users 										\
+			WHERE												\		username 										\
+			 	 												\
+			 LIMIT 10;",
+
+		function processQueryResult(queryReturned) {
+    		if (!queryReturned.Success) {
+    			alert(queryReturned.Error)
+    		} else {
+    			
+
+    			for (var i =0; i < queryReturned.Result.length; i++) {
+
+					var str = JSON.stringify(queryReturned.Result[i].user_name, null, 2);
+    				console.log(str);
+    				var str2 = JSON.stringify(queryReturned.Result[i].password, null, 2);
+    				console.log(str2);
+    				var n = str.includes(username);
+    				var y = str2.includes(password);
+    				
+    				  					
+    				
+    				console.log(n); 
+    				console.log(y);
+
+    				
+					if (n == true && y == true)
+					{
+						alert("It worked!")
+						verifiedUserName = username;
+						console.log(verifiedUserName);
+					}
+					else {
+						console.log("it didnt work");
+					}
+
+
+    				
+    			}
+    		
+    		loadUserGroup();
+
+    }
+    	
+	    ;
+});}
+
+	      function loadUserGroup() {
+		MySql.Execute(
+			"dmazzola.com",					// mySQL server
+			"mbrandt2", 						// login name
+			"mbra1200", 					// login password
+			"test_db_mbrandt2", 				// database to use
+			"SELECT 											\
+				group_name, user_name 						\
+			 FROM 												\
+				Groups, Users, UserGroupBridge							\
+			 WHERE 												\
+				Groups.group_id	= UserGroupBridge.group_id 	\
+			AND 											\
+				UserGroupBridge.user_id = Users.user_id	\
+			 AND				\
+			 	Users.user_name = '"+verifiedUserName + "';",				
+		    function (data) {
+            processQueryResult(data);
+      		}
+    	);
+	}
+	function processQueryResult(queryReturned) {
+		if (!queryReturned.Success) {
+			alert(queryReturned.Error)
+		} else {
+
+				groups = document.getElementById("groups");
+				table  	  	= document.createElement("table");
+			for (var i=0; i<queryReturned.Result.length; i++) {
+    			var tableRow = document.createElement("tr");
+    			var json = JSON.stringify(queryReturned.Result[i].group_name);
+    			var groupName = json.replace(/\"/g, "");
+	    		var cell0 	 = document.createElement("td");
+	    		var cellText = document.createTextNode(groupName);
+	    		var cell1	 = document.createElement("td");
+	    		var button = document.createElement("button");
+	    		button.innerHTML="EnterChat";
+	    		cell0.appendChild(cellText);
+	    		cell1.appendChild(button);
+	    		tableRow.appendChild(cell0);
+	    		tableRow.appendChild(cell1);	
+	    		table.appendChild(tableRow);
+	    		}
+    			groups.appendChild(table);
+    		}
+    	}
+
+	  
+	</script>
+	
+	
+</body>
+</html>
